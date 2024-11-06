@@ -1,4 +1,4 @@
-local v1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/svkxx/Roblox-Whitelist-Script/main/HWID%20Table%20Example.lua"))()
+local v1 = loadstring(game:HttpGet("https://raw.githubusercontent.com/kizjwh883398393dc/luauth/refs/heads/main/Luauth.lua"))()
 
 local HWID = loadstring(game:HttpGet("https://raw.githubusercontent.com/kizjwh883398393dc/luauth/refs/heads/main/v1.lua"))()
 
