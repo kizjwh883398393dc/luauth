@@ -1,4 +1,5 @@
-    Version: 1.0
+--[[
+Version: 1.0
     Last Update: 7 / 11 / 2024| Day / Month / Year
 ]]--
 
