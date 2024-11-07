@@ -1,1 +1,1 @@
-local HWID = game:GetService("RbxAnalyticsService"):GetClientId()
+print("skibidi gyatt")
