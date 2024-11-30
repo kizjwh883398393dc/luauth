@@ -1,5 +1,5 @@
 --[[
-Version: 1.1
+Version: 1.0.2
 Last Update: 30 / 11 / 2024 | Day / Month / Year
 ]]--
 
@@ -119,7 +119,7 @@ function obfuscate(source, VarName, WaterMark)
     return obfuscated
 end
 
---// Module
+--// Обфускатор
 return function(source, CustomVarName, WaterMark)
     task.spawn(function()
         obfuscate(source, CustomVarName, WaterMark)
