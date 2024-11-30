@@ -59,16 +59,14 @@ function obfuscate(source, VarName, WaterMark)
         return s
     end
 
--- Функция для добавления мусора из кода
-local function add_junk_code(number)
-    local junk_code = ""
-    for i = 1, number do
-        local junk_var_name = Variable .. random_string(math.random(10, 14))
-        -- Создаем локальную переменную с простым значением
-        junk_code = junk_code .. [[local ]] .. junk_var_name .. [[ = "junk"]]
+    -- Функция для добавления мусора из кода
+    local function add_junk_code(number)
+        local junk_code = ""
+        for i = 1, number do
+            junk_code = junk_code .. [[local ]] .. Variable .. random_string(math.random(10, 14)) .. [[ = function() return "junk" end; ]]
+        end
+        return junk_code
     end
-    return junk_code
-end
 
     local Random_Variable = {
         TableByte = random_string(math.random(15, 20)),
