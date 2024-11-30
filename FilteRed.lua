@@ -38,20 +38,13 @@ function obfuscate(source, VarName, WaterMark)
         return code
     end
 
-    local function string_to_binary(String)
-        local BinaryString = {}
 
-        for i, Character in ipairs(String:split'') do
-            local Binary = ""
-            local Byte = Character:byte()
-            while Byte > 0 do
-                Binary = tostring(Byte % 2) .. Binary
-                Byte = math.modf(Byte / 2)
-            end
-            table.insert(BinaryString, string.format("%.8d", Binary))
+    local function string_to_byte_code(String)
+        local byte_code = {}
+        for i = 1, #String do
+            table.insert(byte_code, string.format("\\%d", String:byte(i)))
         end
-
-        return table.concat(BinaryString, " ")
+        return table.concat(byte_code, ", ")
     end
 
     local function add_binary(number)
@@ -68,18 +61,28 @@ function obfuscate(source, VarName, WaterMark)
 
         local s = ""
         for i = 1, number do
-            local str = [[local ]]..Variable..random_string(math.random(10, 12))..[[ = ]]..'"'..string_to_binary(topic[math.random(1, #topic)])..'"'.."; "
+            local str = [[local ]]..Variable..random_string(math.random(10, 12))..[[ = ]]..'"'..string_to_byte_code(topic[math.random(1, #topic)])..'"'.."; "
             s = s..str
         end
 
         return s
     end
 
-    -- Функция для добавления мусора из кода
     local function add_junk_code(number)
         local junk_code = ""
         for i = 1, number do
-            junk_code = junk_code .. [[local ]] .. Variable .. random_string(math.random(10, 14)) .. [[ = function() return "junk" end; ]]
+            local junk_string = "local junk" .. i .. " = function() return 'junk" .. i .. "' end"
+            junk_code = junk_code .. junk_string .. "\n"
+        end
+        return junk_code
+    end
+
+
+    local function add_encoded_junk(number)
+        local junk_code = ""
+        for i = 1, number do
+            local junk_string = random_string(math.random(10, 14))
+            junk_code = junk_code .. [[local ]] .. Variable .. junk_string .. [[ = "]] .. string_to_byte_code("This is an encoded junk string " .. i) .. [["; ]]
         end
         return junk_code
     end
@@ -110,7 +113,7 @@ function obfuscate(source, VarName, WaterMark)
         local t = {}
         for i = 1, number do
             local create_Var = Variable..random_string(math.random(15, 20))
-            local random_code = "return "..tostring(random_(math.clamp(1000, string.len(source) / 2, string.len(source))))
+            local random_code = "return "..tostring(math.random(1, 100))
             local byte = ""
             for x = 1, #random_code do 
                 byte = byte..'"\\'..string.byte(random_code, x)..'", ' 
@@ -119,16 +122,16 @@ function obfuscate(source, VarName, WaterMark)
             local fake = [[local ]]..create_Var..[[ = {]]..byte..[[}; ]]..[[local ]]..create_Var.." = "..func[1]..[[(]]..create_Var..[[); ]]
             table.insert(t, fake)
         end
-        return table.concat(t, "\n") -- Changed to return code as a joined string
+        return table.concat(t, "\n")
     end
 
-    local obfuscated = WM..troll_var.."; "..Loadstring.."; "..fake_code(math.random(2, 4))..TableByte.."; "..add_junk_code(math.random(5, 10)).."; "..[[local ]]..Variable..random_string(math.random(15, 20)).." = "..func[1].."("..func[2]..")".."; "..fake_code(math.random(2, 4))
+    local obfuscated = WM..troll_var.."; "..Loadstring.."; "..fake_code(math.random(2, 4))..TableByte.."; "..add_junk_code(math.random(5, 10)).."; "..add_encoded_junk(math.random(5, 10)).."; "..[[local ]]..Variable..random_string(math.random(15, 20)).." = "..func[1].."("..func[2]..")".."; "..fake_code(math.random(2, 4))
     setclipboard(obfuscated)
     warn("Done obfuscate in "..tostring(tick() - ticks).." seconds")
     return obfuscated
 end
 
---// Обфускатор
+
 return function(source, CustomVarName, WaterMark)
     task.spawn(function()
         obfuscate(source, CustomVarName, WaterMark)
