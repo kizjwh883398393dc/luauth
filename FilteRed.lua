@@ -1,5 +1,5 @@
 --[[
-Version: 1.0.3
+Version: 1.0.4
 Last Update: 30 / 11 / 2024 | Day / Month / Year
 ]]--
 
