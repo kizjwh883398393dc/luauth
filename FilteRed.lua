@@ -1,12 +1,12 @@
 --[[
-Version: 1.0.4
+Version: 1.1
 Last Update: 30 / 11 / 2024 | Day / Month / Year
 ]]--
 
 --// Source
 function obfuscate(source, VarName, WaterMark)
     warn("Filtered: OBFUSCATING...")
-
+    
     local Variable = VarName or "FilterPass_"
     local WM
 
@@ -89,9 +89,9 @@ function obfuscate(source, VarName, WaterMark)
         SourceByte = SourceByte .. '"\\' .. string.byte(source, i) .. '", ' 
     end
     local TableByte = [[local ]]..Variable..Random_Variable.TableByte..[[ = {]]..SourceByte..[[}]]
-
+    
     local Loadstring = [[local ]]..Variable..Random_Variable.Loadstring..[[ = loadstring(table.concat({"\114", "\101", "\116", "\117", "\114", "\110", "\32", "\102", "\117", "\110", "\99", "\116", "\105", "\111", "\110", "\40", "\98", "\121", "\116", "\101", "\41", "\10", "\32", "\32", "\32", "\32", "\105", "\102", "\32", "\116", "\121", "\112", "\101", "\111", "\102", "\40", "\98", "\121", "\116", "\101", "\41", "\32", "\61", "\61", "\32", "\34", "\116", "\97", "\98", "\108", "\101", "\34", "\32", "\116", "\104", "\101", "\110", "\10", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\108", "\111", "\97", "\100", "\115", "\116", "\114", "\105", "\110", "\103", "\40", "\116", "\97", "\98", "\108", "\101", "\46", "\99", "\111", "\110", "\99", "\97", "\116", "\40", "\98", "\121", "\116", "\101", "\41", "\41", "\40", "\41", "\10", "\32", "\32", "\32", "\32", "\101", "\108", "\115", "\101", "\10", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\98", "\121", "\116", "\101", "\32", "\61", "\32", "\123", "\98", "\121", "\116", "\101", "\125", "\10", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\32", "\108", "\111", "\97", "\100", "\115", "\116", "\114", "\105", "\110", "\103", "\40", "\116", "\97", "\98", "\108", "\101", "\46", "\99", "\111", "\110", "\99", "\97", "\116", "\40", "\98", "\121", "\116", "\101", "\41", "\41", "\40", "\41", "\10", "\32", "\32", "\32", "\32", "\101", "\110", "\100", "\10", "\101", "\110", "\100", "\10",}))()]]
-
+    
     local func = {
         [1] = Variable..Random_Variable.Loadstring,
         [2] = Variable..Random_Variable.TableByte,
@@ -106,7 +106,7 @@ function obfuscate(source, VarName, WaterMark)
             for x = 1, #random_code do 
                 byte = byte..'"\\'..string.byte(random_code, x)..'", ' 
             end
-
+            
             local fake = [[local ]]..create_Var..[[ = {]]..byte..[[}; ]]..[[local ]]..create_Var.." = "..func[1]..[[(]]..create_Var..[[); ]]
             table.insert(t, fake)
         end
@@ -119,7 +119,7 @@ function obfuscate(source, VarName, WaterMark)
     return obfuscated
 end
 
---// Module
+--// Обфускатор
 return function(source, CustomVarName, WaterMark)
     task.spawn(function()
         obfuscate(source, CustomVarName, WaterMark)
