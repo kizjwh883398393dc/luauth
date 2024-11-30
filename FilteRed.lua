@@ -1,12 +1,12 @@
 --[[
-Version: 1.0.2
+Version: 1.0.3
 Last Update: 30 / 11 / 2024 | Day / Month / Year
 ]]--
 
 --// Source
 function obfuscate(source, VarName, WaterMark)
     warn("Filtered: OBFUSCATING...")
-    
+
     local Variable = VarName or "FilterPass_"
     local WM
 
@@ -75,6 +75,15 @@ function obfuscate(source, VarName, WaterMark)
         return s
     end
 
+    -- Функция для добавления мусора из кода
+    local function add_junk_code(number)
+        local junk_code = ""
+        for i = 1, number do
+            junk_code = junk_code .. [[local ]] .. Variable .. random_string(math.random(10, 14)) .. [[ = function() return "junk" end; ]]
+        end
+        return junk_code
+    end
+
     local Random_Variable = {
         TableByte = random_string(math.random(15, 20)),
         Table_concat = random_string(math.random(15, 20)),
@@ -113,7 +122,7 @@ function obfuscate(source, VarName, WaterMark)
         return table.concat(t, "\n") -- Changed to return code as a joined string
     end
 
-    local obfuscated = WM..troll_var.."; "..Loadstring.."; "..fake_code(math.random(2, 4))..TableByte.."; "..[[local ]]..Variable..random_string(math.random(15, 20)).." = "..func[1].."("..func[2]..")".."; "..fake_code(math.random(2, 4))
+    local obfuscated = WM..troll_var.."; "..Loadstring.."; "..fake_code(math.random(2, 4))..TableByte.."; "..add_junk_code(math.random(5, 10)).."; "..[[local ]]..Variable..random_string(math.random(15, 20)).." = "..func[1].."("..func[2]..")".."; "..fake_code(math.random(2, 4))
     setclipboard(obfuscated)
     warn("Done obfuscate in "..tostring(tick() - ticks).." seconds")
     return obfuscated
