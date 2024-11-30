@@ -64,8 +64,8 @@ local function add_junk_code(number)
     local junk_code = ""
     for i = 1, number do
         local junk_var_name = Variable .. random_string(math.random(10, 14))
-        -- Генерация зашифрованного кода
-        junk_code = junk_code .. [[local ]] .. junk_var_name .. [[ = loadstring("return function() return ']] .. string.rep("junk ", math.random(1, 3)) .. [[' end")()]]
+        -- Создаем локальную переменную с простым значением
+        junk_code = junk_code .. [[local ]] .. junk_var_name .. [[ = "junk"]]
     end
     return junk_code
 end
